@@ -1,47 +1,46 @@
 package com.sbs.example;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/gugudan")
+import com.sbs.example.util.Util;
+
+@WebServlet("/home/gugudan")
 public class GugudanServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		response.setCharacterEncoding("utf-8");
+		
+		request.setCharacterEncoding("UTF-8");
+		
+		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=utf-8");
 
-		PrintWriter out = response.getWriter();	
+		int dan = Util.pi(request.getParameter("dan"), 2);
+		int limit = Util.pi(request.getParameter("limit"), 9);
 
-		String inputDan = request.getParameter("dan");
-		
-		if (inputDan == null || inputDan == "") {
-			inputDan = "7";
-		}
-		
-		int dan = Integer.parseInt(inputDan);
-		
-		out.println("<h3>===" + dan + "단 ===</h3>");
+//		response.getWriter().println(Util.f("<h1>== 구구단 %d단 ==</h1>", dan));
+//
+//		for (int i = 1; i <= limit; i++) {
+//			response.getWriter().println(Util.f("<div>%d * %d = %d</div>", dan, i, dan * i));
+//		}
 
-		for (int i=1; i<10; i++) {
-//			out.println(dan + " * " + i + " = " + dan*i + "<br>");
-			out.println(String.format("<div>%d * %d = %d</div>", dan, i, dan*i)); // 스트링 포맷 이용 방법
-		}
+		request.setAttribute("dan", dan); // 변수명은 임의로 선택 가능, jsp에 넘겨줄 변수 선언
+		request.setAttribute("limit", limit); // 변수명은 임의로 선택 가능, jsp에 넘겨줄 변수 선언
 
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/home/gugudan.jsp");
+		dispatcher.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }
