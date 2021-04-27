@@ -26,15 +26,11 @@ public class GugudanServlet extends HttpServlet {
 		int dan = Util.pi(request.getParameter("dan"), 2);
 		int limit = Util.pi(request.getParameter("limit"), 9);
 
-//		response.getWriter().println(Util.f("<h1>== 구구단 %d단 ==</h1>", dan));
-//
-//		for (int i = 1; i <= limit; i++) {
-//			response.getWriter().println(Util.f("<div>%d * %d = %d</div>", dan, i, dan * i));
-//		}
-
-		request.setAttribute("dan", dan); // 변수명은 임의로 선택 가능, jsp에 넘겨줄 변수 선언
-		request.setAttribute("limit", limit); // 변수명은 임의로 선택 가능, jsp에 넘겨줄 변수 선언
-
+		// 변수명은 임의로 선택 가능, jsp에 넘겨줄 변수 선언
+		request.setAttribute("dan", dan);
+		request.setAttribute("limit", limit); 
+		
+		// 변수에 담은 정보를 jsp에 dispatcher로 전
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/home/gugudan.jsp");
 		dispatcher.forward(request, response);
 	}
