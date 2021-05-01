@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>JSTL</title>
 </head>
 <body>
 
@@ -27,11 +27,11 @@
 <hr/>
 
 <!-- 응용 구구단 반복문 -->
-<c:forEach var="i" begin="${n}" end="${m}">
-	<c:if test="${i % 2 == 1 }">
-		<c:forEach var="j" begin="1" end="${limit}" step="1">
-			<c:if test="${j % 2 == 0 }">
-				<div>${i} * ${j} = ${i*j}</div>			
+<c:forEach var="dan" begin="${n}" end="${m}">
+	<c:if test="${dan % 2 == 1 }">
+		<c:forEach var="i" begin="1" end="${limit}" step="1">
+			<c:if test="${i % 2 == 0 }">
+				<div>${dan} * ${i} = ${dan*i}</div>			
 			</c:if>
 		</c:forEach>		
 		<br>
@@ -48,7 +48,14 @@
 </c:forEach>
 <hr/>
 
-
+<!-- 게시글 출력 -->
+<c:forEach var="article" items="${articles}">
+	<div>
+		제목 : ${article.title} <br/>
+		내용 : ${article.body}
+	</div>
+	<br/>		
+</c:forEach>
 
 </body>
 </html>
