@@ -13,7 +13,9 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/work/sts-4.10.0.RELEASE/jstl-1.2.jar"/>
-	<classpathentry kind="lib" path="C:/work/lombok.jar"/>
+	<classpathentry kind="lib" path="/Users/brad/Downloads/자바 jar 모음/mybatis-3.5.3.jar"/>
+	<classpathentry kind="lib" path="/Users/brad/Downloads/자바 jar 모음/lombok.jar"/>
+	<classpathentry kind="lib" path="/Users/brad/Downloads/자바 jar 모음/jstl-1.2.jar"/>
+	<classpathentry kind="lib" path="/Users/brad/Downloads/자바 jar 모음/mysql-connector-java-8.0.23/mysql-connector-java-8.0.23.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

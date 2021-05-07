@@ -1,3 +1,5 @@
+package com.sbs.example;
+
 public class Article {
 	private int id;
 	private String title;

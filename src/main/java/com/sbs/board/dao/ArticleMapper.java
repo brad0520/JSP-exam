@@ -2,6 +2,8 @@ package com.sbs.board.dao;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.sbs.board.Article;
 
 // 메서드 명세서

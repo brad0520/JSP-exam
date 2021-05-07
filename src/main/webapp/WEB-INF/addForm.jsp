@@ -9,7 +9,7 @@
 <body>
 <h1>게시물 등록</h1>
 
-<form action="board" method="POST">
+<form action="TestServlet" method="POST">
 	<div>
 		제목 : <input type="text" name="title" />
 	</div>
