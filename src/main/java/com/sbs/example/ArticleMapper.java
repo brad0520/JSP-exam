@@ -7,4 +7,5 @@ public interface ArticleMapper {
 	public ArrayList<Article> getArticles();
 	public void insertArticle(Article article);
 	public Article getArticleById(int id);
+	public void modifyArticle(Article article);
 }

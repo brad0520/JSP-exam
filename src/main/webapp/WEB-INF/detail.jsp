@@ -8,13 +8,15 @@
 </head>
 <body>
 <h1> 게시물 상세 페이지</h1>
-	<div>
-		제목 : ${article.title} 
-	</div>
-	<div>
-		내용 : ${article.body}
-	</div>
-	<a href="#">수정</a>
-	<a href="#">삭제</a>
+		<div>
+			제목 : ${article.title} 
+		</div>
+		<div>
+			내용 : ${article.body}
+		</div>
+		
+		<a href="TestServlet?action=modify&id=${article.id}">수정</a>
+		<a href="#">삭제</a>
+		
 </body>
 </html>

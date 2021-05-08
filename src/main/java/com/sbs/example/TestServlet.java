@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/TestServlet")
 public class TestServlet extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
 	private ArticleDao dao;
 	
 	public TestServlet() throws IOException {		
@@ -45,6 +47,34 @@ public class TestServlet extends HttpServlet {
 			
 			// 재요청 -> redirect
 			response.sendRedirect("TestServlet?action=list");
+			
+		} else if(action.equals("modify")) {
+			
+			int id = Integer.parseInt(request.getParameter("id"));
+			
+			Article article = dao.getArticleById(id);
+			
+			request.setAttribute("article", article);
+			forward(request, response, "modify");
+			
+		} else if(action.equals("doModify")) {
+			int id = Integer.parseInt(request.getParameter("id"));
+			String title = request.getParameter("title");
+			String body = request.getParameter("body");
+			
+			
+			Article article = new Article();
+			article.setId(id);
+			article.setTitle(title);
+			article.setBody(body);
+			
+			request.setAttribute("article", article);
+
+			
+			dao.modifyArticle(article);
+			
+			// 재요청 -> redirect
+			response.sendRedirect("TestServlet?action=detailForm&id=" + id);
 			
 		} else if(action.equals("detailForm") ) {
 			

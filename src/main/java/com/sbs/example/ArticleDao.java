@@ -41,4 +41,11 @@ public class ArticleDao {
 		ArticleMapper mapper = session.getMapper(ArticleMapper.class);
 		return mapper.getArticleById(id);
 	}
+
+	public void modifyArticle(Article article) {
+		SqlSession session = sqlSessionFactory.openSession();
+		ArticleMapper mapper = session.getMapper(ArticleMapper.class);
+		mapper.modifyArticle(article);
+		session.commit();
+	}
 }

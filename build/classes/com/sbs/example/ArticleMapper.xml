@@ -25,4 +25,11 @@
   	hit = 0,
   	regDate = now()  	 
   </insert>
+  
+  <update id="modifyArticle" parameterType="com.sbs.example.Article">
+  	UPDATE article 
+  	SET title = #{title},
+  	body = #{body} 	 
+    WHERE id = #{id}
+  </update>
 </mapper>
