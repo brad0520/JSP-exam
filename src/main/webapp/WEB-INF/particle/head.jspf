@@ -6,7 +6,7 @@
 .contents {
 	margin: 0 auto;
 	width: 900px;
-	height: 600px;
+	height: 700px;
 }
 
 .footer {
@@ -21,10 +21,10 @@
 <div class="contents">
 	<c:choose>
 		<c:when test="${ loginedMember == null }">
-			<a href="TestServlet?action=showLoginForm">로그인</a><br>
+			<a href="/member/showLoginForm.do">로그인</a><br>
 		</c:when>
 		<c:otherwise>
-			<span>${ loginedMember.name }님! 반갑습니다.</span><a href="TestServlet?action=doLogout">로그아웃</a>
+			<span>${ loginedMember.name }님! 반갑습니다.</span><a href="member?action=doLogout">로그아웃</a>
 		</c:otherwise>
 	</c:choose>
 	

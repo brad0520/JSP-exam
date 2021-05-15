@@ -1,156 +1,65 @@
 package com.sbs.example.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.sbs.example.article.Article;
+import com.sbs.example.article.ArticleController;
 import com.sbs.example.article.ArticleDao;
-import com.sbs.example.member.Member;
-import com.sbs.example.member.MemberDao;
-import com.sbs.example.reply.Reply;
-import com.sbs.example.reply.ReplyDao;
+import com.sbs.example.member.MemberController;
 
-@WebServlet("/TestServlet")
+@WebServlet("*.do")
 public class TestServlet extends HttpServlet {
-	private ArticleDao dao;
-	private MemberDao mdao;
-	private ReplyDao rdao;
+	public ArticleDao dao;
+	private Controller cont;
+	
 	
 	public TestServlet() throws IOException {		
 		 dao = new ArticleDao();
-		 mdao = new MemberDao();
-		 rdao = new ReplyDao();
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		// 공통처리
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
+	
+		// 모듈 분석
+		String url = request.getRequestURI();
 		
-		String action = request.getParameter("action");
+		String[] urlBits = url.split("/");
 		
-		if(action == null) {
-			action = "default";
+		if(urlBits.length < 3) {
+			System.out.println("잘못된 요청");
+			return;
 		}
 		
-		if(action.equals("addForm")) {
+		String module = urlBits[1];
+		String action = urlBits[2];
 		
-			forward(request, response, "article/addForm");
-			
-		} else if(action.equals("doAdd")) {
-			String title = request.getParameter("title");
-			String body = request.getParameter("body");
-			
-			Article article = new Article();
-			article.setTitle(title);
-			article.setBody(body);
-			
-			dao.insertArticle(article);
-			
-			// 재요청 -> redirect
-			response.sendRedirect("TestServlet?action=list");
-			
-		} else if(action.equals("detailForm") ) {
-			
-			int id = Integer.parseInt(request.getParameter("id"));
-			
-			Article article = dao.getArticleById(id);
-			request.setAttribute("article", article);
+		if(module.equals("article")) {
+			cont = new ArticleController();
+		} else if(module.equals("member")) {
+			cont = new MemberController();
+		}
+		
+		request.setAttribute("action", action);
+		
+		System.out.println("1 : " + action);
+		
+		cont.doService(request, response);
 
-			List <Reply> replies = rdao.getRepliesByArticleId(id);
-			request.setAttribute("replies", replies);
-
-			forward(request, response, "article/detail");
-		}
-		else if(action.equals("default") || action.equals("list")) {
-			
-			ArrayList<Article> articles = dao.getArticles();
-			request.setAttribute("articles", articles);
-			forward(request, response, "article/list");
-			
-		} 
-		else if(action.equals("doDelete")) {
-			
-			int id = Integer.parseInt(request.getParameter("id"));
-			dao.deleteArticleById(id);
-			
-			response.sendRedirect("TestServlet?action=list");
-		}
-		else if(action.equals("showUpdateForm")) {
-			int id = Integer.parseInt(request.getParameter("id"));
-			Article article = dao.getArticleById(id);
-			
-			request.setAttribute("article", article);
-			forward(request, response, "article/updateForm");
-		}
-		else if(action.equals("doUpdate")) {
-			int id = Integer.parseInt(request.getParameter("id"));
-			String title = request.getParameter("title");
-			String body = request.getParameter("body");
-			
-			Article article = new Article();
-			article.setId(id);
-			article.setTitle(title);
-			article.setBody(body);
-			
-			dao.updateArticle(article);
-			
-			response.sendRedirect("TestServlet?action=detailForm&id=" + id);
-			
-		}
-		else if(action.equals("showLoginForm")) {
-			forward(request, response, "member/loginForm");
-		}
-		else if(action.equals("doLogin")) {
-			String loginId = request.getParameter("loginId");
-			String loginPw = request.getParameter("loginPw");
-			
-			Member member = new Member();
-			member.setLoginId(loginId);
-			member.setLoginPw(loginPw);
-			
-			Member loginedMember = mdao.getMemberByLoginIdAndLoginPw(member);
-			
-			System.out.println(loginedMember);
-			
-			
-			if(loginedMember == null) {
-				//에러페이지
-				forward(request, response, "error/loginFailed");
-				
-			} else {
-				HttpSession session = request.getSession();
-				session.setAttribute("loginedMember", loginedMember);
-				//request.setAttribute("loginedMember", loginedMember);
-				response.sendRedirect("TestServlet?action=list");
-			}		
-		} 
-		else if(action.equals("doLogout")) {
-			HttpSession session = request.getSession();
-			session.invalidate();
-			
-			response.sendRedirect("TestServlet?action=list");
-		}
+		
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doGet(req, resp);
 	}
-	
-	private void forward(HttpServletRequest request, HttpServletResponse response, String fname) throws ServletException, IOException {
-		String path = "/WEB-INF/" + fname + ".jsp";
-		RequestDispatcher rd =  request.getRequestDispatcher(path);
-		rd.forward(request, response);
-	}
 }
+

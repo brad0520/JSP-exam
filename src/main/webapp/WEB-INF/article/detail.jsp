@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,16 +24,21 @@
 		</form>
 		 -->
 		<a href="TestServlet?action=doDelete&id=${ article.id }">삭제</a>
-		<hr/>
-		<c:forEach items="${replies}" var="reply">
-			<h1> 댓글 목록</h1>
-			<div>
-				댓글 번호 : ${reply.id} 
-			</div>
-			<div>
-				댓글 내용 : ${reply.BODY}
-			</div>
-		</c:forEach>
+		<hr>
+		<div>
+			<c:forEach var="reply" items="${ replies }">
+				<div>
+					<span>내용</span>
+					<span>${reply.body}</span>
+				</div>
+				<hr>
+			</c:forEach>
+		</div>
+		<form>
+			<input type="text" name="rbody" />
+			<input type="submit" value="등록" />
+		</form>
+		
 	</div>
 <%@ include file="../particle/foot.jspf" %>
 </body>
